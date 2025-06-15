@@ -380,6 +380,10 @@
                 max-width: none;
             }
         }
+
+        .no-wrap {
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -683,18 +687,18 @@
                     <td><strong>${project.software}</strong></td>
                     <td>${project.version}</td>
                     <td><span class="license-badge ${getLicenseBadgeClass(project.licenseType)}">${project.licenseType}</span></td>
-                    <td>${project.licenseUrl ? `<a href="${project.licenseUrl}" target="_blank" class="url-link">查看许可证</a>` : ''}</td>
+                    <td class="no-wrap">${project.licenseUrl ? `<a href="${project.licenseUrl}" target="_blank" class="url-link">查看许可证</a>` : ''}</td>
                     <td>${project.copyright}</td>
                     <td>${project.vendor}</td>
-                    <td>${project.projectUrl ? `<a href="${project.projectUrl}" target="_blank" class="url-link">项目地址</a>` : ''}</td>
+                    <td class="no-wrap">${project.projectUrl ? `<a href="${project.projectUrl}" target="_blank" class="url-link">项目地址</a>` : ''}</td>
                     <td>${project.usage}</td>
                     <td>${project.riskLevel ? `<span class="license-badge ${getRiskBadgeClass(project.riskLevel)}">${project.riskLevel}</span>` : ''}</td>
-                    <td>${project.lastUpdated}</td>
+                    <td class="no-wrap">${project.lastUpdated}</td>
                     <td>${project.status}</td>
                     <td>${project.category}</td>
                     <td>${project.description}</td>
                     <td>${project.notes}</td>
-                    <td>
+                    <td class="no-wrap">
                         <button onclick="editProject(${project.id})" class="action-btn edit-btn" title="编辑"><i class="fas fa-edit"></i></button>
                         <button onclick="deleteProject(${project.id})" class="action-btn delete-btn" title="删除"><i class="fas fa-trash-alt"></i></button>
                     </td>
