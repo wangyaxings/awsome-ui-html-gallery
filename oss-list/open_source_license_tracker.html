@@ -70,7 +70,6 @@
             position: relative;
             flex: 1;
             min-width: 280px;
-            max-width: 400px;
         }
 
         .search-container .fa-search {
@@ -91,6 +90,9 @@
             transition: all 0.3s ease;
             background: #f9fafb;
             box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         input[type="text"]:focus {
@@ -103,17 +105,62 @@
             padding-left: 45px;
         }
 
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: auto;
+            min-width: 200px;
+            max-width: 400px;
+            background-color: #555;
+            color: white;
+            text-align: left;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+            word-wrap: break-word;
+            white-space: nowrap;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
         .table-container {
-            overflow-x: auto;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             background: white;
+            overflow: hidden;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
+            table-layout: fixed;
         }
 
         th {
@@ -129,12 +176,39 @@
             z-index: 10;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+
+        /* 设置各列的宽度 - 14列 */
+        th:nth-child(1) { width: 5%; }   /* 序号 */
+        th:nth-child(2) { width: 10%; }  /* 软件名称 */
+        th:nth-child(3) { width: 8%; }   /* 版本号 */
+        th:nth-child(4) { width: 10%; }  /* 许可证类型 */
+        th:nth-child(5) { width: 8%; }   /* 许可证URL */
+        th:nth-child(6) { width: 8%; }   /* 项目地址 */
+        th:nth-child(7) { width: 8%; }   /* 使用方式 */
+        th:nth-child(8) { width: 8%; }   /* 风险评级 */
+        th:nth-child(9) { width: 8%; }   /* 最后更新 */
+        th:nth-child(10) { width: 8%; }  /* 项目状态 */
+        th:nth-child(11) { width: 6%; }  /* 分类 */
+        th:nth-child(12) { width: 12%; } /* 描述 */
+        th:nth-child(13) { width: 9%; }  /* 备注 */
+        th:nth-child(14) { width: 8%; }  /* 操作 */
 
         td {
             padding: 12px;
             border-bottom: 1px solid #f0f0f0;
             font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+        }
+
+        /* 操作列居中对齐 */
+        td:nth-child(14) {
+            text-align: center;
         }
 
         tr:hover {
@@ -168,11 +242,75 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.2s ease;
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .url-link:hover {
             color: #285a8c;
             text-decoration: underline;
+        }
+
+        /* 为表格单元格添加tooltip样式 */
+        .cell-tooltip {
+            position: relative;
+            cursor: default;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .cell-tooltip .cell-tooltiptext {
+            visibility: hidden;
+            width: auto;
+            min-width: 200px;
+            max-width: 300px;
+            background-color: #555;
+            color: white;
+            text-align: left;
+            border-radius: 6px;
+            padding: 8px 12px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+            word-wrap: break-word;
+            white-space: normal;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            line-height: 1.4;
+        }
+
+        .cell-tooltip .cell-tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .cell-tooltip:hover .cell-tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* 确保链接在tooltip容器中正确显示 */
+        .cell-tooltip .url-link {
+            display: inline-block;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .stats {
@@ -349,6 +487,7 @@
 
             .search-container {
                 max-width: none;
+                min-width: auto;
             }
         }
 
@@ -378,11 +517,69 @@
 
             .search-container {
                 max-width: none;
+                min-width: auto;
             }
-        }
 
-        .no-wrap {
-            white-space: nowrap;
+            .tooltip .tooltiptext {
+                left: 20px;
+                transform: none;
+                max-width: calc(100vw - 60px);
+            }
+
+            .cell-tooltip .cell-tooltiptext {
+                left: 10px;
+                transform: none;
+                max-width: calc(100vw - 40px);
+                bottom: auto;
+                top: 150%;
+                min-width: 150px;
+            }
+
+            .cell-tooltip .cell-tooltiptext::after {
+                top: -6px;
+                border-color: transparent transparent #2c3e50 transparent;
+            }
+
+            /* 移动端表格优化 */
+            th, td {
+                padding: 8px 4px;
+                font-size: 12px;
+            }
+
+            .action-buttons {
+                gap: 2px;
+            }
+
+            .action-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+                padding: 3px;
+            }
+
+            /* 调整移动端列宽 - 14列布局 */
+            th:nth-child(1) { width: 6%; }   /* 序号 */
+            th:nth-child(2) { width: 16%; }  /* 软件名称 */
+            th:nth-child(3) { width: 10%; }  /* 版本号 */
+            th:nth-child(4) { width: 14%; }  /* 许可证类型 */
+            th:nth-child(5) { width: 10%; }  /* 许可证URL */
+            th:nth-child(6) { width: 10%; }  /* 项目地址 */
+            th:nth-child(7) { width: 0%; }   /* 使用方式 - 隐藏 */
+            th:nth-child(8) { width: 10%; }  /* 风险评级 */
+            th:nth-child(9) { width: 10%; }  /* 最后更新 */
+            th:nth-child(10) { width: 10%; } /* 项目状态 */
+            th:nth-child(11) { width: 8%; }  /* 分类 */
+            th:nth-child(12) { width: 0%; }  /* 描述 - 隐藏 */
+            th:nth-child(13) { width: 0%; }  /* 备注 - 隐藏 */
+            th:nth-child(14) { width: 8%; }  /* 操作 */
+
+            /* 隐藏部分列在移动端 */
+            th:nth-child(7), td:nth-child(7),   /* 使用方式 */
+            th:nth-child(12), td:nth-child(12), /* 描述 */
+            th:nth-child(13), td:nth-child(13)  /* 备注 */
+            {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -413,9 +610,10 @@
             <button onclick="toggleAddForm()"><i class="fas fa-plus"></i> 添加项目</button>
             <button onclick="exportToExcel()"><i class="fas fa-file-excel"></i> 导出Excel</button>
             <button onclick="importSampleData()"><i class="fas fa-database"></i> 加载示例数据</button>
-            <div class="search-container">
+            <div class="search-container tooltip">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="搜索软件名称、许可证类型、厂商..." onkeyup="filterTable()">
+                <input type="text" id="searchInput" placeholder="搜索软件名称、许可证类型、项目状态..." onkeyup="filterTable()" oninput="updateSearchTooltip(this)">
+                <span class="tooltiptext" id="searchTooltip"></span>
             </div>
         </div>
 
@@ -450,14 +648,6 @@
                 <div class="form-group">
                     <label for="licenseUrl">许可证URL</label>
                     <input type="url" id="licenseUrl">
-                </div>
-                <div class="form-group">
-                    <label for="copyright">版权信息</label>
-                    <input type="text" id="copyright">
-                </div>
-                <div class="form-group">
-                    <label for="vendor">厂商/作者</label>
-                    <input type="text" id="vendor">
                 </div>
                 <div class="form-group">
                     <label for="projectUrl">项目地址</label>
@@ -537,8 +727,6 @@
                         <th>版本号</th>
                         <th>许可证类型</th>
                         <th>许可证URL</th>
-                        <th>版权信息</th>
-                        <th>厂商/作者</th>
                         <th>项目地址</th>
                         <th>使用方式</th>
                         <th>风险评级</th>
@@ -576,8 +764,6 @@
             document.getElementById('version').value = '';
             document.getElementById('licenseType').value = '';
             document.getElementById('licenseUrl').value = '';
-            document.getElementById('copyright').value = '';
-            document.getElementById('vendor').value = '';
             document.getElementById('projectUrl').value = '';
             document.getElementById('usage').value = '';
             document.getElementById('riskLevel').value = '';
@@ -603,8 +789,6 @@
                 version: document.getElementById('version').value,
                 licenseType: licenseType,
                 licenseUrl: document.getElementById('licenseUrl').value,
-                copyright: document.getElementById('copyright').value,
-                vendor: document.getElementById('vendor').value,
                 projectUrl: document.getElementById('projectUrl').value,
                 usage: document.getElementById('usage').value,
                 riskLevel: document.getElementById('riskLevel').value,
@@ -638,8 +822,6 @@
             document.getElementById('version').value = project.version;
             document.getElementById('licenseType').value = project.licenseType;
             document.getElementById('licenseUrl').value = project.licenseUrl;
-            document.getElementById('copyright').value = project.copyright;
-            document.getElementById('vendor').value = project.vendor;
             document.getElementById('projectUrl').value = project.projectUrl;
             document.getElementById('usage').value = project.usage;
             document.getElementById('riskLevel').value = project.riskLevel;
@@ -682,25 +864,67 @@
 
             projects.forEach((project, index) => {
                 const row = document.createElement('tr');
+
+                // 创建带tooltip的单元格内容 - 只有在内容存在时才添加tooltip
+                const createCellWithTooltip = (content, tooltipText = null) => {
+                    if (!content) return '';
+                    const tooltip = tooltipText || content;
+                    // 移除HTML标签用于tooltip显示
+                    const cleanTooltip = tooltip.replace(/<[^>]*>/g, '');
+                    return `<div class="cell-tooltip">
+                              ${content}
+                              <span class="cell-tooltiptext">${cleanTooltip}</span>
+                            </div>`;
+                };
+
+                // 创建简单内容（无tooltip）
+                const createSimpleCell = (content) => {
+                    return content || '';
+                };
+
+                // 处理许可证URL
+                const licenseUrlContent = project.licenseUrl
+                    ? `<div class="cell-tooltip">
+                         <a href="${project.licenseUrl}" target="_blank" class="url-link">查看许可证</a>
+                         <span class="cell-tooltiptext">许可证地址: ${project.licenseUrl}</span>
+                       </div>`
+                    : '';
+
+                // 处理项目地址
+                const projectUrlContent = project.projectUrl
+                    ? `<div class="cell-tooltip">
+                         <a href="${project.projectUrl}" target="_blank" class="url-link">项目地址</a>
+                         <span class="cell-tooltiptext">项目地址: ${project.projectUrl}</span>
+                       </div>`
+                    : '';
+
+                // 处理风险评级badge
+                const riskContent = project.riskLevel
+                    ? `<span class="license-badge ${getRiskBadgeClass(project.riskLevel)}">${project.riskLevel}</span>`
+                    : '';
+
                 row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td><strong>${project.software}</strong></td>
-                    <td>${project.version}</td>
+                    <td>${project.software ? createCellWithTooltip(`<strong>${project.software}</strong>`, project.software) : ''}</td>
+                    <td>${project.version ? createCellWithTooltip(project.version) : ''}</td>
                     <td><span class="license-badge ${getLicenseBadgeClass(project.licenseType)}">${project.licenseType}</span></td>
-                    <td class="no-wrap">${project.licenseUrl ? `<a href="${project.licenseUrl}" target="_blank" class="url-link">查看许可证</a>` : ''}</td>
-                    <td>${project.copyright}</td>
-                    <td>${project.vendor}</td>
-                    <td class="no-wrap">${project.projectUrl ? `<a href="${project.projectUrl}" target="_blank" class="url-link">项目地址</a>` : ''}</td>
-                    <td>${project.usage}</td>
-                    <td>${project.riskLevel ? `<span class="license-badge ${getRiskBadgeClass(project.riskLevel)}">${project.riskLevel}</span>` : ''}</td>
-                    <td class="no-wrap">${project.lastUpdated}</td>
-                    <td>${project.status}</td>
-                    <td>${project.category}</td>
-                    <td>${project.description}</td>
-                    <td>${project.notes}</td>
-                    <td class="no-wrap">
-                        <button onclick="editProject(${project.id})" class="action-btn edit-btn" title="编辑"><i class="fas fa-edit"></i></button>
-                        <button onclick="deleteProject(${project.id})" class="action-btn delete-btn" title="删除"><i class="fas fa-trash-alt"></i></button>
+                    <td>${licenseUrlContent}</td>
+                    <td>${projectUrlContent}</td>
+                    <td>${project.usage ? createCellWithTooltip(project.usage) : ''}</td>
+                    <td>${riskContent}</td>
+                    <td>${project.lastUpdated ? `<div class="cell-tooltip">
+                                                    ${project.lastUpdated}
+                                                    <span class="cell-tooltiptext">最后更新: ${project.lastUpdated}</span>
+                                                  </div>` : ''}</td>
+                    <td>${project.status ? createCellWithTooltip(project.status) : ''}</td>
+                    <td>${project.category ? createCellWithTooltip(project.category) : ''}</td>
+                    <td>${project.description ? createCellWithTooltip(project.description) : ''}</td>
+                    <td>${project.notes ? createCellWithTooltip(project.notes) : ''}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button onclick="editProject(${project.id})" class="action-btn edit-btn" title="编辑"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteProject(${project.id})" class="action-btn delete-btn" title="删除"><i class="fas fa-trash-alt"></i></button>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -730,6 +954,28 @@
             });
         }
 
+        function updateSearchTooltip(input) {
+            const tooltip = document.getElementById('searchTooltip');
+            const inputValue = input.value;
+
+            // 检查输入框内容是否被截断
+            const inputWidth = input.offsetWidth - 45; // 减去左侧图标和padding的宽度
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            const computedStyle = window.getComputedStyle(input);
+            context.font = computedStyle.fontSize + ' ' + computedStyle.fontFamily;
+            const textWidth = context.measureText(inputValue).width;
+
+            if (inputValue && textWidth > inputWidth) {
+                tooltip.textContent = inputValue;
+                tooltip.style.visibility = 'visible';
+                tooltip.style.opacity = '1';
+            } else {
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.opacity = '0';
+            }
+        }
+
         function importSampleData() {
             const sampleProjects = [
                 {
@@ -738,16 +984,46 @@
                     version: '18.2.0',
                     licenseType: 'MIT',
                     licenseUrl: 'https://github.com/facebook/react/blob/main/LICENSE',
-                    copyright: 'Copyright (c) Meta Platforms, Inc.',
-                    vendor: 'Meta (Facebook)',
                     projectUrl: 'https://github.com/facebook/react',
                     usage: 'Direct Dependency',
                     riskLevel: 'Low',
                     lastUpdated: '2023-06-14',
                     status: 'Active',
                     category: 'Framework',
-                    description: 'JavaScript库，用于构建用户界面',
-                    notes: '主要前端框架',
+                    description: 'JavaScript库，用于构建用户界面的声明式、高效且灵活的前端框架',
+                    notes: '主要前端框架，用于构建整个应用的用户界面层',
+                    addedDate: new Date().toLocaleDateString()
+                },
+                {
+                    id: 2,
+                    software: 'Vue.js',
+                    version: '3.3.4',
+                    licenseType: 'MIT',
+                    licenseUrl: 'https://github.com/vuejs/core/blob/main/LICENSE',
+                    projectUrl: 'https://github.com/vuejs/core',
+                    usage: 'Development Dependency',
+                    riskLevel: 'Low',
+                    lastUpdated: '2023-07-01',
+                    status: 'Active',
+                    category: 'Framework',
+                    description: '渐进式JavaScript框架，易于上手，便于与第三方库或既有项目整合',
+                    notes: '备选前端框架，用于特定组件开发',
+                    addedDate: new Date().toLocaleDateString()
+                },
+                {
+                    id: 3,
+                    software: 'Apache HTTP Server',
+                    version: '2.4.57',
+                    licenseType: 'Apache-2.0',
+                    licenseUrl: 'https://www.apache.org/licenses/LICENSE-2.0',
+                    projectUrl: 'https://httpd.apache.org/',
+                    usage: 'Runtime Dependency',
+                    riskLevel: 'Medium',
+                    lastUpdated: '2023-04-07',
+                    status: 'Active',
+                    category: 'Tool',
+                    description: '世界使用排名第一的Web服务器软件，功能强大、配置灵活的HTTP服务器',
+                    notes: '生产环境Web服务器，需要定期更新安全补丁',
                     addedDate: new Date().toLocaleDateString()
                 }
             ];
@@ -760,8 +1036,8 @@
 
         function exportToExcel() {
             const headers = [
-                'No', 'Software', 'Version', 'License Type', 'License URL', 'Copyright',
-                'Vendor/Author', 'Project URL', 'Usage', 'Risk Level', 'Last Updated',
+                'No', 'Software', 'Version', 'License Type', 'License URL',
+                'Project URL', 'Usage', 'Risk Level', 'Last Updated',
                 'Status', 'Category', 'Description', 'Notes', 'Added Date'
             ];
 
@@ -775,8 +1051,6 @@
                     `"${project.version}"`,
                     `"${project.licenseType}"`,
                     `"${project.licenseUrl}"`,
-                    `"${project.copyright}"`,
-                    `"${project.vendor}"`,
                     `"${project.projectUrl}"`,
                     `"${project.usage}"`,
                     `"${project.riskLevel}"`,
