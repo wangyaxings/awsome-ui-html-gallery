@@ -4,189 +4,297 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>开源协议记录统计表格</title>
-
-    <!-- TailwindCSS 3.0+ -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Framer Motion -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.16.4/framer-motion.min.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        }
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'slide-up': 'slideUp 0.3s ease-out',
-                        'pulse-soft': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .glass-effect {
-            backdrop-filter: blur(16px);
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
         }
 
-        .hover-lift {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        .hover-lift:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e0e6ed;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            transform: scale(1.001);
+            transition: all 0.2s ease;
+        }
+
+        .license-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mit { background: #e8f5e8; color: #2e7d32; }
+        .apache { background: #fff3e0; color: #ef6c00; }
+        .gpl { background: #fce4ec; color: #c2185b; }
+        .bsd { background: #e3f2fd; color: #1976d2; }
+        .mozilla { background: #f3e5f5; color: #7b1fa2; }
+
+        .risk-high { background: #ffebee; color: #c62828; }
+        .risk-medium { background: #fff8e1; color: #f57c00; }
+        .risk-low { background: #e8f5e8; color: #388e3c; }
+
+        .url-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .url-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+        }
+
+        .add-form {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 13px;
+        }
+
+        select, input[type="text"], input[type="url"], input[type="date"], textarea {
+            padding: 10px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .export-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            border-radius: 15px;
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-    <div class="container mx-auto px-4 py-8 max-w-7xl">
-        <!-- Header -->
-        <div class="text-center mb-10 animate-fade-in">
-            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-                <i class="fas fa-unlock-alt mr-3"></i>
-                开源协议记录统计表格
-            </h1>
-            <p class="text-gray-600 text-lg">管理和追踪您的开源软件许可证合规性</p>
-        </div>
-
-        <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="statsContainer">
-            <div class="glass-effect rounded-2xl p-6 hover-lift">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">总项目数</p>
-                        <p class="text-3xl font-bold text-blue-600" id="totalCount">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-box text-blue-600 text-xl"></i>
-                    </div>
-                </div>
+<body>
+    <div class="container">
+        <h1>🔓 开源协议记录统计表格</h1>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">总项目数</div>
             </div>
-
-            <div class="glass-effect rounded-2xl p-6 hover-lift">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">许可证类型</p>
-                        <p class="text-3xl font-bold text-emerald-600" id="licenseTypes">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-certificate text-emerald-600 text-xl"></i>
-                    </div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-number" id="licenseTypes">0</div>
+                <div class="stat-label">许可证类型</div>
             </div>
-
-            <div class="glass-effect rounded-2xl p-6 hover-lift">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">高风险项目</p>
-                        <p class="text-3xl font-bold text-red-600" id="highRiskCount">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
-                    </div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-number" id="highRiskCount">0</div>
+                <div class="stat-label">高风险项目</div>
             </div>
-
-            <div class="glass-effect rounded-2xl p-6 hover-lift">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 uppercase tracking-wide">活跃项目</p>
-                        <p class="text-3xl font-bold text-purple-600" id="activeProjects">0</p>
-                    </div>
-                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                        <i class="fas fa-chart-line text-purple-600 text-xl"></i>
-                    </div>
-                </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeProjects">0</div>
+                <div class="stat-label">活跃项目</div>
             </div>
         </div>
 
-        <!-- Controls -->
-        <div class="glass-effect rounded-2xl p-6 mb-8 animate-slide-up">
-            <div class="flex flex-col lg:flex-row gap-4 items-center">
-                <div class="flex flex-wrap gap-3">
-                    <button onclick="toggleAddForm()" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        <i class="fas fa-plus mr-2"></i>添加项目
-                    </button>
-                    <button onclick="exportToExcel()" class="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        <i class="fas fa-file-excel mr-2"></i>导出Excel
-                    </button>
-                    <button onclick="importSampleData()" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        <i class="fas fa-download mr-2"></i>加载示例
-                    </button>
-                </div>
-
-                <div class="flex-1 min-w-80">
-                    <div class="relative">
-                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input
-                            type="text"
-                            id="searchInput"
-                            placeholder="搜索软件名称、许可证类型、厂商..."
-                            onkeyup="filterTable()"
-                            class="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/80 backdrop-blur-sm"
-                        >
-                    </div>
-                </div>
+        <div class="controls">
+            <button onclick="toggleAddForm()">➕ 添加项目</button>
+            <button onclick="exportToExcel()">📊 导出Excel</button>
+            <button onclick="importSampleData()">📥 加载示例数据</button>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="🔍 搜索软件名称、许可证类型、厂商..." onkeyup="filterTable()">
             </div>
         </div>
 
-        <!-- Add Form -->
-        <div id="addForm" class="hidden glass-effect rounded-2xl p-8 mb-8 border border-gray-200">
-            <div class="flex items-center justify-between mb-6">
-                <h3 class="text-2xl font-bold text-gray-800">
-                    <i class="fas fa-plus-circle mr-2 text-blue-600"></i>
-                    <span id="formTitle">添加新项目</span>
-                </h3>
-                <button onclick="toggleAddForm()" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
-            </div>
-
-            <form class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="space-y-2">
-                    <label for="software" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-cube mr-1"></i>软件名称 *
-                    </label>
-                    <input type="text" id="software" required class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+        <div id="addForm" class="add-form">
+            <h3>添加新项目</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="software">软件名称 *</label>
+                    <input type="text" id="software" required>
                 </div>
-
-                <div class="space-y-2">
-                    <label for="version" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-tag mr-1"></i>版本号
-                    </label>
-                    <input type="text" id="version" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="version">版本号</label>
+                    <input type="text" id="version">
                 </div>
-
-                <div class="space-y-2">
-                    <label for="licenseType" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-certificate mr-1"></i>许可证类型 *
-                    </label>
-                    <select id="licenseType" required class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="licenseType">许可证类型 *</label>
+                    <select id="licenseType" required>
                         <option value="">请选择...</option>
                         <option value="MIT">MIT</option>
                         <option value="Apache-2.0">Apache 2.0</option>
@@ -201,40 +309,25 @@
                         <option value="Custom">自定义</option>
                     </select>
                 </div>
-
-                <div class="space-y-2">
-                    <label for="licenseUrl" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-link mr-1"></i>许可证URL
-                    </label>
-                    <input type="url" id="licenseUrl" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="licenseUrl">许可证URL</label>
+                    <input type="url" id="licenseUrl">
                 </div>
-
-                <div class="space-y-2">
-                    <label for="copyright" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-copyright mr-1"></i>版权信息
-                    </label>
-                    <input type="text" id="copyright" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="copyright">版权信息</label>
+                    <input type="text" id="copyright">
                 </div>
-
-                <div class="space-y-2">
-                    <label for="vendor" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-building mr-1"></i>厂商/作者
-                    </label>
-                    <input type="text" id="vendor" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="vendor">厂商/作者</label>
+                    <input type="text" id="vendor">
                 </div>
-
-                <div class="space-y-2">
-                    <label for="projectUrl" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-globe mr-1"></i>项目地址
-                    </label>
-                    <input type="url" id="projectUrl" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="projectUrl">项目地址</label>
+                    <input type="url" id="projectUrl">
                 </div>
-
-                <div class="space-y-2">
-                    <label for="usage" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-cogs mr-1"></i>使用方式
-                    </label>
-                    <select id="usage" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="usage">使用方式</label>
+                    <select id="usage">
                         <option value="">请选择...</option>
                         <option value="Direct Dependency">直接依赖</option>
                         <option value="Transitive Dependency">间接依赖</option>
@@ -244,31 +337,22 @@
                         <option value="Dynamic Link">动态链接</option>
                     </select>
                 </div>
-
-                <div class="space-y-2">
-                    <label for="riskLevel" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-shield-alt mr-1"></i>风险评级
-                    </label>
-                    <select id="riskLevel" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="riskLevel">风险评级</label>
+                    <select id="riskLevel">
                         <option value="">请选择...</option>
                         <option value="Low">低风险</option>
                         <option value="Medium">中风险</option>
                         <option value="High">高风险</option>
                     </select>
                 </div>
-
-                <div class="space-y-2">
-                    <label for="lastUpdated" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-calendar mr-1"></i>最后更新
-                    </label>
-                    <input type="date" id="lastUpdated" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="lastUpdated">最后更新</label>
+                    <input type="date" id="lastUpdated">
                 </div>
-
-                <div class="space-y-2">
-                    <label for="status" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-heartbeat mr-1"></i>项目状态
-                    </label>
-                    <select id="status" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="status">项目状态</label>
+                    <select id="status">
                         <option value="">请选择...</option>
                         <option value="Active">活跃</option>
                         <option value="Maintenance">维护中</option>
@@ -276,12 +360,9 @@
                         <option value="Archived">已归档</option>
                     </select>
                 </div>
-
-                <div class="space-y-2">
-                    <label for="category" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-sitemap mr-1"></i>分类
-                    </label>
-                    <select id="category" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300">
+                <div class="form-group">
+                    <label for="category">分类</label>
+                    <select id="category">
                         <option value="">请选择...</option>
                         <option value="Framework">框架</option>
                         <option value="Library">库</option>
@@ -294,83 +375,52 @@
                         <option value="Other">其他</option>
                     </select>
                 </div>
-
-                <div class="md:col-span-2 lg:col-span-3 space-y-2">
-                    <label for="description" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-file-alt mr-1"></i>描述
-                    </label>
-                    <textarea id="description" rows="3" placeholder="项目描述、用途说明等..." class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"></textarea>
-                </div>
-
-                <div class="md:col-span-2 lg:col-span-3 space-y-2">
-                    <label for="notes" class="block text-sm font-semibold text-gray-700">
-                        <i class="fas fa-sticky-note mr-1"></i>备注
-                    </label>
-                    <textarea id="notes" rows="3" placeholder="其他备注信息..." class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"></textarea>
-                </div>
-            </form>
-
-            <div class="flex gap-4 mt-8">
-                <button onclick="addProject()" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    <i class="fas fa-check mr-2"></i>保存项目
-                </button>
-                <button onclick="toggleAddForm()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-medium transition-all duration-300">
-                    <i class="fas fa-times mr-2"></i>取消
-                </button>
             </div>
+            <div class="form-group">
+                <label for="description">描述</label>
+                <textarea id="description" placeholder="项目描述、用途说明等..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="notes">备注</label>
+                <textarea id="notes" placeholder="其他备注信息..."></textarea>
+            </div>
+            <button onclick="addProject()">✅ 添加项目</button>
+            <button onclick="toggleAddForm()">❌ 取消</button>
         </div>
 
-        <!-- Table -->
-        <div class="glass-effect rounded-2xl overflow-hidden shadow-xl">
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">序号</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">软件名称</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">版本号</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">许可证类型</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">许可证URL</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">版权信息</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">厂商/作者</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">项目地址</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">使用方式</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">风险评级</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">最后更新</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">项目状态</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">分类</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">描述</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">备注</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody" class="bg-white divide-y divide-gray-200">
-                        <!-- Table rows will be populated by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
+        <div class="table-container">
+            <table id="projectTable">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>软件名称</th>
+                        <th>版本号</th>
+                        <th>许可证类型</th>
+                        <th>许可证URL</th>
+                        <th>版权信息</th>
+                        <th>厂商/作者</th>
+                        <th>项目地址</th>
+                        <th>使用方式</th>
+                        <th>风险评级</th>
+                        <th>最后更新</th>
+                        <th>项目状态</th>
+                        <th>分类</th>
+                        <th>描述</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
         </div>
 
-        <!-- Footer -->
-        <div class="glass-effect rounded-2xl p-8 mt-8 text-center">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-sm text-gray-600">
-                <div class="flex items-center justify-center space-x-2">
-                    <i class="fas fa-plus-circle text-blue-600"></i>
-                    <span>点击"添加项目"按钮添加新的开源软件记录</span>
-                </div>
-                <div class="flex items-center justify-center space-x-2">
-                    <i class="fas fa-search text-emerald-600"></i>
-                    <span>使用搜索框快速查找特定项目</span>
-                </div>
-                <div class="flex items-center justify-center space-x-2">
-                    <i class="fas fa-file-excel text-purple-600"></i>
-                    <span>点击"导出Excel"生成完整的统计报表</span>
-                </div>
-                <div class="flex items-center justify-center space-x-2">
-                    <i class="fas fa-shield-alt text-red-600"></i>
-                    <span>支持记录许可证合规性、风险评估等关键信息</span>
-                </div>
-            </div>
+        <div class="export-section">
+            <h3>📋 使用说明</h3>
+            <p>1. 点击"添加项目"按钮添加新的开源软件记录</p>
+            <p>2. 使用搜索框快速查找特定项目</p>
+            <p>3. 点击"导出Excel"生成完整的统计报表</p>
+            <p>4. 支持记录许可证合规性、风险评估等关键信息</p>
         </div>
     </div>
 
@@ -378,52 +428,39 @@
         let projects = [];
         let currentEditId = null;
 
-        // Animation utilities
-        function animateElement(element, animation = 'fadeIn') {
-            element.style.animation = `${animation} 0.5s ease-in-out`;
-        }
-
-        function animateStatsCards() {
-            const cards = document.querySelectorAll('#statsContainer > div');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.style.animation = 'slideUp 0.5s ease-out';
-                }, index * 100);
-            });
-        }
-
         function toggleAddForm() {
             const form = document.getElementById('addForm');
-            const formTitle = document.getElementById('formTitle');
-
-            if (form.classList.contains('hidden')) {
-                form.classList.remove('hidden');
-                form.style.animation = 'slideUp 0.3s ease-out';
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+            
+            if (form.style.display === 'block') {
                 clearForm();
                 currentEditId = null;
-                formTitle.innerHTML = '<i class="fas fa-plus-circle mr-2 text-blue-600"></i>添加新项目';
-            } else {
-                form.style.animation = 'fadeOut 0.3s ease-in';
-                setTimeout(() => {
-                    form.classList.add('hidden');
-                }, 300);
             }
         }
 
         function clearForm() {
-            const inputs = ['software', 'version', 'licenseType', 'licenseUrl', 'copyright', 'vendor', 'projectUrl', 'usage', 'riskLevel', 'lastUpdated', 'status', 'category', 'description', 'notes'];
-            inputs.forEach(id => {
-                document.getElementById(id).value = '';
-            });
+            document.getElementById('software').value = '';
+            document.getElementById('version').value = '';
+            document.getElementById('licenseType').value = '';
+            document.getElementById('licenseUrl').value = '';
+            document.getElementById('copyright').value = '';
+            document.getElementById('vendor').value = '';
+            document.getElementById('projectUrl').value = '';
+            document.getElementById('usage').value = '';
+            document.getElementById('riskLevel').value = '';
+            document.getElementById('lastUpdated').value = '';
+            document.getElementById('status').value = '';
+            document.getElementById('category').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('notes').value = '';
         }
 
         function addProject() {
             const software = document.getElementById('software').value;
             const licenseType = document.getElementById('licenseType').value;
-
+            
             if (!software || !licenseType) {
-                // Show animated alert
-                showNotification('请填写必填字段：软件名称和许可证类型', 'error');
+                alert('请填写必填字段：软件名称和许可证类型');
                 return;
             }
 
@@ -450,10 +487,8 @@
                 const index = projects.findIndex(p => p.id === currentEditId);
                 projects[index] = project;
                 currentEditId = null;
-                showNotification('项目更新成功！', 'success');
             } else {
                 projects.push(project);
-                showNotification('项目添加成功！', 'success');
             }
 
             renderTable();
@@ -466,53 +501,46 @@
             if (!project) return;
 
             currentEditId = id;
-            const formTitle = document.getElementById('formTitle');
-            formTitle.innerHTML = '<i class="fas fa-edit mr-2 text-blue-600"></i>编辑项目';
+            document.getElementById('software').value = project.software;
+            document.getElementById('version').value = project.version;
+            document.getElementById('licenseType').value = project.licenseType;
+            document.getElementById('licenseUrl').value = project.licenseUrl;
+            document.getElementById('copyright').value = project.copyright;
+            document.getElementById('vendor').value = project.vendor;
+            document.getElementById('projectUrl').value = project.projectUrl;
+            document.getElementById('usage').value = project.usage;
+            document.getElementById('riskLevel').value = project.riskLevel;
+            document.getElementById('lastUpdated').value = project.lastUpdated;
+            document.getElementById('status').value = project.status;
+            document.getElementById('category').value = project.category;
+            document.getElementById('description').value = project.description;
+            document.getElementById('notes').value = project.notes;
 
-            // Populate form fields
-            Object.keys(project).forEach(key => {
-                const element = document.getElementById(key);
-                if (element) {
-                    element.value = project[key];
-                }
-            });
-
-            document.getElementById('addForm').classList.remove('hidden');
-            document.getElementById('addForm').style.animation = 'slideUp 0.3s ease-out';
+            document.getElementById('addForm').style.display = 'block';
         }
 
         function deleteProject(id) {
-            showConfirmDialog('确定要删除这个项目吗？', () => {
+            if (confirm('确定要删除这个项目吗？')) {
                 projects = projects.filter(p => p.id !== id);
                 renderTable();
                 updateStats();
-                showNotification('项目删除成功！', 'success');
-            });
+            }
         }
 
         function getLicenseBadgeClass(license) {
-            const classes = {
-                'mit': 'bg-green-100 text-green-800',
-                'apache': 'bg-orange-100 text-orange-800',
-                'gpl': 'bg-red-100 text-red-800',
-                'bsd': 'bg-blue-100 text-blue-800',
-                'mozilla': 'bg-purple-100 text-purple-800'
-            };
-
-            const key = license.toLowerCase();
-            for (const [keyword, className] of Object.entries(classes)) {
-                if (key.includes(keyword)) return className;
-            }
-            return 'bg-gray-100 text-gray-800';
+            if (license.toLowerCase().includes('mit')) return 'mit';
+            if (license.toLowerCase().includes('apache')) return 'apache';
+            if (license.toLowerCase().includes('gpl')) return 'gpl';
+            if (license.toLowerCase().includes('bsd')) return 'bsd';
+            if (license.toLowerCase().includes('mozilla')) return 'mozilla';
+            return '';
         }
 
         function getRiskBadgeClass(risk) {
-            const classes = {
-                'High': 'bg-red-100 text-red-800',
-                'Medium': 'bg-yellow-100 text-yellow-800',
-                'Low': 'bg-green-100 text-green-800'
-            };
-            return classes[risk] || 'bg-gray-100 text-gray-800';
+            if (risk === 'High') return 'risk-high';
+            if (risk === 'Medium') return 'risk-medium';
+            if (risk === 'Low') return 'risk-low';
+            return '';
         }
 
         function renderTable() {
@@ -521,98 +549,51 @@
 
             projects.forEach((project, index) => {
                 const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50 transition-colors duration-200';
                 row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${index + 1}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                            <i class="fas fa-cube text-blue-600 mr-2"></i>
-                            <span class="text-sm font-medium text-gray-900">${project.software}</span>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.version}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full ${getLicenseBadgeClass(project.licenseType)}">
-                            ${project.licenseType}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        ${project.licenseUrl ? `<a href="${project.licenseUrl}" target="_blank" class="text-blue-600 hover:text-blue-800 transition-colors">
-                            <i class="fas fa-external-link-alt mr-1"></i>查看许可证
-                        </a>` : '-'}
-                    </td>
-                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">${project.copyright || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.vendor || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        ${project.projectUrl ? `<a href="${project.projectUrl}" target="_blank" class="text-blue-600 hover:text-blue-800 transition-colors">
-                            <i class="fas fa-globe mr-1"></i>项目地址
-                        </a>` : '-'}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.usage || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        ${project.riskLevel ? `<span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full ${getRiskBadgeClass(project.riskLevel)}">
-                            ${project.riskLevel}
-                        </span>` : '-'}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.lastUpdated || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.status || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${project.category || '-'}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">${project.description || '-'}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">${project.notes || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="editProject(${project.id})" class="text-blue-600 hover:text-blue-900 mr-3 transition-colors">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="deleteProject(${project.id})" class="text-red-600 hover:text-red-900 transition-colors">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                    <td>${index + 1}</td>
+                    <td><strong>${project.software}</strong></td>
+                    <td>${project.version}</td>
+                    <td><span class="license-badge ${getLicenseBadgeClass(project.licenseType)}">${project.licenseType}</span></td>
+                    <td>${project.licenseUrl ? `<a href="${project.licenseUrl}" target="_blank" class="url-link">查看许可证</a>` : ''}</td>
+                    <td>${project.copyright}</td>
+                    <td>${project.vendor}</td>
+                    <td>${project.projectUrl ? `<a href="${project.projectUrl}" target="_blank" class="url-link">项目地址</a>` : ''}</td>
+                    <td>${project.usage}</td>
+                    <td>${project.riskLevel ? `<span class="license-badge ${getRiskBadgeClass(project.riskLevel)}">${project.riskLevel}</span>` : ''}</td>
+                    <td>${project.lastUpdated}</td>
+                    <td>${project.status}</td>
+                    <td>${project.category}</td>
+                    <td>${project.description}</td>
+                    <td>${project.notes}</td>
+                    <td>
+                        <button onclick="editProject(${project.id})" style="background: #17a2b8; margin-right: 5px; padding: 5px 10px; font-size: 12px;">编辑</button>
+                        <button onclick="deleteProject(${project.id})" style="background: #dc3545; padding: 5px 10px; font-size: 12px;">删除</button>
                     </td>
                 `;
                 tbody.appendChild(row);
-
-                // Animate row appearance
-                setTimeout(() => {
-                    row.style.animation = 'slideUp 0.3s ease-out';
-                }, index * 50);
             });
         }
 
         function updateStats() {
-            const totalCount = projects.length;
+            document.getElementById('totalCount').textContent = projects.length;
+            
             const uniqueLicenses = new Set(projects.map(p => p.licenseType)).size;
+            document.getElementById('licenseTypes').textContent = uniqueLicenses;
+            
             const highRiskCount = projects.filter(p => p.riskLevel === 'High').length;
+            document.getElementById('highRiskCount').textContent = highRiskCount;
+            
             const activeProjects = projects.filter(p => p.status === 'Active').length;
-
-            // Animate counter updates
-            animateCounter('totalCount', totalCount);
-            animateCounter('licenseTypes', uniqueLicenses);
-            animateCounter('highRiskCount', highRiskCount);
-            animateCounter('activeProjects', activeProjects);
-        }
-
-        function animateCounter(elementId, targetValue) {
-            const element = document.getElementById(elementId);
-            const currentValue = parseInt(element.textContent) || 0;
-            const increment = Math.ceil((targetValue - currentValue) / 20);
-
-            if (currentValue !== targetValue) {
-                element.textContent = Math.min(currentValue + increment, targetValue);
-                setTimeout(() => animateCounter(elementId, targetValue), 50);
-            }
+            document.getElementById('activeProjects').textContent = activeProjects;
         }
 
         function filterTable() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             const rows = document.querySelectorAll('#tableBody tr');
-
+            
             rows.forEach(row => {
                 const text = row.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    row.style.display = '';
-                    row.style.animation = 'slideUp 0.3s ease-out';
-                } else {
-                    row.style.display = 'none';
-                }
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
             });
         }
 
@@ -695,7 +676,7 @@
             projects = [...projects, ...sampleProjects];
             renderTable();
             updateStats();
-            showNotification('示例数据已加载！', 'success');
+            alert('示例数据已加载！');
         }
 
         function exportToExcel() {
@@ -737,86 +718,11 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-
-            showNotification('Excel文件导出成功！', 'success');
         }
 
-        // Notification system
-        function showNotification(message, type = 'info') {
-            const notification = document.createElement('div');
-            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-xl shadow-lg max-w-sm ${
-                type === 'success' ? 'bg-green-500 text-white' :
-                type === 'error' ? 'bg-red-500 text-white' :
-                'bg-blue-500 text-white'
-            } transition-all duration-300 transform translate-x-full`;
-
-            notification.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fas ${
-                        type === 'success' ? 'fa-check-circle' :
-                        type === 'error' ? 'fa-exclamation-circle' :
-                        'fa-info-circle'
-                    } mr-2"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.style.transform = 'translateX(0)';
-            }, 100);
-
-            setTimeout(() => {
-                notification.style.transform = 'translateX(full)';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 3000);
-        }
-
-        // Confirm dialog
-        function showConfirmDialog(message, callback) {
-            const overlay = document.createElement('div');
-            overlay.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-            overlay.innerHTML = `
-                <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 transform scale-95 transition-transform duration-300">
-                    <div class="text-center">
-                        <i class="fas fa-question-circle text-orange-500 text-4xl mb-4"></i>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">${message}</h3>
-                        <div class="flex gap-4 justify-center">
-                            <button onclick="confirmAction(true)" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors">
-                                确定
-                            </button>
-                            <button onclick="confirmAction(false)" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-2 rounded-lg transition-colors">
-                                取消
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(overlay);
-            setTimeout(() => {
-                overlay.querySelector('div').style.transform = 'scale(1)';
-            }, 50);
-
-            window.confirmAction = (confirmed) => {
-                if (confirmed) callback();
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(overlay);
-                    delete window.confirmAction;
-                }, 300);
-            };
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            renderTable();
-            updateStats();
-            animateStatsCards();
-        });
+        // 初始化
+        renderTable();
+        updateStats();
     </script>
 </body>
 </html>
