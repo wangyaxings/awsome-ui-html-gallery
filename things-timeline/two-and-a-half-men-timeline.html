@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two and a Half Men - Timeline</title>
+    
+    <!-- TimelineJS CSS -->
+    <link title="timeline-styles" rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            width: 100%;
+            height: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        a {
+            color: #4e9ed4;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Two and a Half Men (2003-2015)</h1>
+        <p>Explore the timeline of one of America's most popular sitcoms</p>
+    </div>
+    
+    <div id="timeline-embed" class="container"></div>
+    
+    <div class="footer">
+        <p>Data source: Wikipedia | Created with TimelineJS | &copy; 2025</p>
+    </div>
+    
+    <!-- TimelineJS JavaScript -->
+    <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+    
+    <script type="text/javascript">
+        // Timeline data for Two and a Half Men
+        const timelineData = {
+            title: {
+                media: {
+                    url: "https://upload.wikimedia.org/wikipedia/en/c/c9/Two_and_a_Half_Men-title.png",
+                    caption: "Two and a Half Men Logo"
+                },
+                text: {
+                    headline: "Two and a Half Men",
+                    text: "一部在CBS电视台播出的热门美国情景喜剧，从2003年到2015年，共播出12季"
+                }
+            },
+            events: [
+                {
+                    start_date: {
+                        year: 2003,
+                        month: 9,
+                        day: 22
+                    },
+                    text: {
+                        headline: "剧集首播",
+                        text: "《好汉两个半》在CBS首播，由Chuck Lorre和Lee Aronsohn创作。最初由Charlie Sheen、Jon Cryer和Angus T. Jones主演。"
+                    },
+                    media: {
+                        url: "https://upload.wikimedia.org/wikipedia/en/d/d3/TwoAndAHalfMenS1.jpg",
+                        caption: "原始演员阵容：Charlie Sheen饰演Charlie Harper，Jon Cryer饰演Alan Harper，Angus T. Jones饰演Jake Harper"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2005,
+                        month: 9,
+                        day: 19
+                    },
+                    text: {
+                        headline: "第三季开播",
+                        text: "随着第三季的开播，该剧的收视率持续上升，成为CBS的热门节目之一。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2007,
+                        month: 5,
+                        day: 14
+                    },
+                    text: {
+                        headline: "成为美国收视率最高的情景喜剧",
+                        text: "在第四季结束时，《好汉两个半》成为美国收视率最高的情景喜剧。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2008,
+                        month: 2,
+                        day: 4
+                    },
+                    text: {
+                        headline: "编剧罢工后回归",
+                        text: "在2007-2008年好莱坞编剧罢工后，该剧回归播出第五季剩余集数。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2010,
+                        month: 5
+                    },
+                    text: {
+                        headline: "Charlie Sheen续约",
+                        text: "Charlie Sheen续签合约两年，据报道每集片酬高达180万美元，使他成为当时电视界片酬最高的演员。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2011,
+                        month: 2
+                    },
+                    text: {
+                        headline: "制作暂停",
+                        text: "在Charlie Sheen进入药物康复中心并对节目创作者Chuck Lorre发表争议性言论后，第八季的制作被暂停。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2011,
+                        month: 3,
+                        day: 7
+                    },
+                    text: {
+                        headline: "Charlie Sheen被解雇",
+                        text: "华纳兄弟电视公司正式终止了Charlie Sheen的合约，原因是他的不稳定行为和公开言论。"
+                    },
+                    media: {
+                        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Charlie_Sheen_2012.jpg/330px-Charlie_Sheen_2012.jpg",
+                        caption: "Charlie Sheen在离开剧组后"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2011,
+                        month: 5,
+                        day: 13
+                    },
+                    text: {
+                        headline: "Ashton Kutcher加入",
+                        text: "Ashton Kutcher被宣布为Charlie Sheen的替代者，饰演新角色Walden Schmidt，一位在Charlie死后买下他房子的亿万富翁。"
+                    },
+                    media: {
+                        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Ashton_Kutcher_by_David_Shankbone.jpg/330px-Ashton_Kutcher_by_David_Shankbone.jpg",
+                        caption: "Ashton Kutcher在第九季加入剧组饰演Walden Schmidt"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2012,
+                        month: 10
+                    },
+                    text: {
+                        headline: "Angus T. Jones争议",
+                        text: "饰演Jake Harper的Angus T. Jones在一个基督教见证视频中公开批评该剧，称其为"污秽"，并敦促观众停止观看，引发争议。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2013,
+                        month: 4
+                    },
+                    text: {
+                        headline: "Jones离开常规演员阵容",
+                        text: "宣布Angus T. Jones不会作为常规演员回归第11季，但可能会客串出现。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2013,
+                        month: 7
+                    },
+                    text: {
+                        headline: "Amber Tamblyn加入",
+                        text: "Amber Tamblyn加入剧组，饰演Jenny，Charlie Harper失散多年的女儿，搬来与Walden和Alan同住。"
+                    },
+                    media: {
+                        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Amber_Tamblyn_by_David_Shankbone.jpg/330px-Amber_Tamblyn_by_David_Shankbone.jpg",
+                        caption: "Amber Tamblyn加入剧组饰演Jenny"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2014,
+                        month: 3,
+                        day: 13
+                    },
+                    text: {
+                        headline: "最终季宣布",
+                        text: "CBS宣布《好汉两个半》的第12季将是最后一季。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2015,
+                        month: 2,
+                        day: 19
+                    },
+                    text: {
+                        headline: "剧集结束",
+                        text: "该剧在播出12季共262集后结束，最终集标题为《当然他死了》。Charlie Sheen被邀请出现在最终集中但拒绝了。相反，该集只有一个从背后看到的替身，并展示了一架钢琴掉在这个角色身上的场景。"
+                    },
+                    media: {
+                        url: "https://upload.wikimedia.org/wikipedia/en/f/f7/TwoAndAHalfMenS12.jpg",
+                        caption: "最终季海报，展示了Jon Cryer和Ashton Kutcher"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2003
+                    },
+                    end_date: {
+                        year: 2015
+                    },
+                    text: {
+                        headline: "艾美奖成功",
+                        text: "在播出期间，该剧获得多次艾美奖提名。Jon Cryer因饰演Alan Harper两次获得黄金时段艾美奖——2009年最佳男配角奖和2012年最佳男主角奖。"
+                    }
+                },
+                {
+                    start_date: {
+                        year: 2003
+                    },
+                    end_date: {
+                        year: 2015
+                    },
+                    text: {
+                        headline: "文化影响",
+                        text: "《好汉两个半》一直是美国观看率最高的情景喜剧之一，在全球多个国家进行了电视转播，成为全球电视现象。"
+                    }
+                }
+            ]
+        };
+
+        // Initialize the Timeline
+        window.timeline = new TL.Timeline('timeline-embed', timelineData, {
+            hash_bookmark: true,
+            lang: 'zh-cn',
+            start_at_end: false,
+            start_at_slide: 0,
+            initial_zoom: 2
+        });
+    </script>
+</body>
+</html>
