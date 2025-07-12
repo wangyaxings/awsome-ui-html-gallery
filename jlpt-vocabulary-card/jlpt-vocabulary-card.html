@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>词汇信息卡片</title>
+<style>
+/* 基础重置和字体引入 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+.vocabulary-card {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(145deg, rgba(28, 30, 34, 0.92) 0%, rgba(38, 40, 45, 0.92) 100%);
+    color: #f8f9fa;
+    padding: 20px;
+    border-radius: 16px;
+    font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+    font-size: 13px;
+    width: 360px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateZ(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999;
+}
+
+/* 标题样式 */
+.vocabulary-card h3 {
+    margin: 0 0 18px 0;
+    font-size: 1.4em;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #e9ecef;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.vocabulary-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(110, 231, 183, 0.8) 0%, rgba(58, 130, 238, 0.8) 100%);
+    border-radius: 2px;
+}
+
+/* 信息条目布局 */
+.vocabulary-card p {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: baseline;
+    gap: 8px;
+}
+
+/* 标签样式 */
+.vocabulary-card .label {
+    font-weight: 500;
+    color: #adb5bd;
+    text-align: right;
+    padding-right: 12px;
+    position: relative;
+}
+
+.vocabulary-card .label::after {
+    content: ':';
+    color: #6c757d;
+    position: absolute;
+    right: 4px;
+}
+
+/* 值样式 */
+.vocabulary-card .value {
+    font-weight: 500;
+    color: #f8f9fa;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 特殊强调处理 */
+.vocabulary-card .value strong {
+    color: #6ee3b7;
+    font-weight: 600;
+}
+
+/* 日语假名标注 */
+.vocabulary-card ruby {
+    ruby-position: under;
+    font-size: 0.95em;
+}
+
+.vocabulary-card rt {
+    font-size: 0.7em;
+    opacity: 0.8;
+    letter-spacing: -0.5px;
+}
+
+/* 分割线优化 */
+.vocabulary-card hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.05) 100%);
+    margin: 16px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="vocabulary-card">
+    <h3>語彙解析 - Vocabulary Analysis</h3>
+    <p><span class="label">対象語彙</span><span class="value"><ruby>難しい<rt>むずかしい</rt></ruby> <ruby>言葉<rt>ことば</rt></ruby></span></p>
+    <p><span class="label">品詞</span><span class="value">形容詞（イ形容詞）</span></p>
+    <p><span class="label">活用形</span><span class="value"><strong>否定形</strong> 難しくない<br><strong>過去形</strong> 難しかった</span></p>
+    <p><span class="label">JLPT レベル</span><span class="value">N2（中級上）</span></p>
+    <p><span class="label">出現頻度</span><span class="value">全教材中15回出現</span></p>
+</div>
+
+</body>
+</html>
